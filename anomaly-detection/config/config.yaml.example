@@ -1,0 +1,60 @@
+# Anomaly Detection Configuration
+# Copy this file to config.yaml and fill in your credentials
+
+splunk:
+  host: "https://your-splunk-instance.example.com"
+  port: 8089
+  username: "admin"
+  password: "changeme"
+  # Optional: use token-based auth instead of username/password
+  # token: "your-splunk-hec-token"
+  verify_ssl: true
+  # Default search parameters
+  search:
+    earliest_time: "-1h"
+    latest_time: "now"
+    max_results: 10000
+
+appdynamics:
+  controller_url: "https://your-controller.saas.appdynamics.com"
+  account_name: "your-account"
+  username: "your-username"
+  password: "your-password"
+  # Optional: use API client credentials instead
+  # client_id: "your-client-id"
+  # client_secret: "your-client-secret"
+  application_name: "your-application"
+  # Time range for metric collection (in minutes)
+  time_range_minutes: 60
+
+detection:
+  # Detection methods to use: zscore, iqr, isolation_forest
+  methods:
+    - zscore
+    - iqr
+    - isolation_forest
+  # Z-score threshold for anomaly detection
+  zscore_threshold: 3.0
+  # IQR multiplier for anomaly detection
+  iqr_multiplier: 1.5
+  # Isolation forest contamination parameter (expected proportion of anomalies)
+  isolation_forest_contamination: 0.05
+  # Minimum number of data points required for detection
+  min_data_points: 10
+  # Consensus mode: "any" (flagged by any method) or "majority" (flagged by most methods)
+  consensus_mode: "majority"
+
+reporting:
+  # Output format: console, json, html
+  output_format: "console"
+  # Output file path (optional, prints to stdout if not set)
+  # output_file: "anomaly_report.html"
+  # Severity levels to include: low, medium, high, critical
+  min_severity: "low"
+
+alerting:
+  enabled: false
+  # Webhook URL for sending alerts
+  # webhook_url: "https://hooks.slack.com/services/your/webhook/url"
+  # Minimum severity to trigger alerts
+  min_alert_severity: "high"
